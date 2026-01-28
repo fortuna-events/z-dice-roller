@@ -176,6 +176,8 @@ h6 .lucide {
     stroke-width: 3;
 }
 
+/* CUSTOM BUTTONS */
+
 .button {
   display: block;
   width: 100%;
@@ -200,4 +202,137 @@ h6 .lucide {
 
 .button:hover {
   background-color: hsl(var(--hue-primary), var(--sat-primary), 90%);
+}
+
+/* PYTHON MARKDOWN SPECIAL CLASSES */
+
+pre {
+  padding: 1em;
+  margin-bottom: 1em;
+  border: 1px solid hsl(var(--hue-primary), var(--sat-primary), 60%);
+  background-color: hsl(var(--hue-primary), var(--sat-primary), 90%);
+  border-radius: 0.25em;
+}
+
+.admonition {
+  padding: 1em;
+  margin-bottom: 1em;
+  border: 1px solid hsl(var(--hue-primary), var(--sat-primary), 60%);
+  background-color: hsl(var(--hue-primary), var(--sat-primary), 90%);
+  border-radius: 0.25em;
+}
+
+.admonition *:last-child {
+  margin-bottom: 0;
+}
+
+.admonition-title {
+  font-weight: bold;
+  border-bottom: 1px solid hsl(var(--hue-primary), var(--sat-primary), 60%);
+}
+
+.admonition.danger,
+.admonition.error,
+.admonition.red {
+  --hue-primary: 4.11;
+  --sat-primary: 89.62%;
+}
+
+.admonition.success,
+.admonition.ok,
+.admonition.green {
+  --hue-primary: 122.42;
+  --sat-primary: 39.44%;
+}
+
+.admonition.warning,
+.admonition.warn,
+.admonition.orange {
+  --hue-primary: 35.76;
+  --sat-primary: 100%;
+}
+
+dl dd {
+  margin-left: 1em;
+}
+
+blockquote {
+  padding-left: 1em;
+  font-style: italic;
+  border-left: 2px solid hsl(var(--hue-primary), var(--sat-primary), 70%);
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid hsl(var(--hue-primary), var(--sat-primary), 70%);
+  margin-bottom: 1em;
+}
+
+.emojione {
+  display: inline-flex;
+  height: 1.125em;
+  vertical-align: text-top;
+}
+
+table {
+  text-align: center;
+  border: 1px solid hsl(var(--hue-primary), var(--sat-primary), 70%);
+}
+
+th,
+td {
+  padding: 0.5em 1em;
+  border: 1px solid hsl(var(--hue-primary), var(--sat-primary), 70%);
+}
+
+.progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: 700;
+  width: 100%;
+  margin: 0;
+  line-height: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 1.1rem;
+  float: left;
+  background-color: hsl(var(--hue-primary), var(--sat-primary), 55%);
+  border-radius: 0.25em;
+}
+
+.progress {
+  display: block;
+  width: 100%;
+  margin-bottom: 1em;
+  height: 1.2rem;
+  border: 1px solid hsl(var(--hue-primary), var(--sat-primary), 70%);
+  border-radius: 0.25em;
+  position: relative;
+}
+
+.progress.thin {
+  margin-top: 0.9rem;
+  height: 0.4rem;
+}
+
+.progress.thin .progress-label {
+  margin-top: -0.4rem;
+}
+
+.progress.thin .progress-bar {
+  height: 0.4rem;
+}
+
+.task-list-item {
+  list-style-type: none !important;
+}
+
+.task-list-item input[type="checkbox"] {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
 }
