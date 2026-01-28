@@ -4,9 +4,10 @@ export interface Editor {
     overlayText: string;
 }
 
+// TODO: 5. implement custom logic
 export interface Page {
     error: boolean;
     header: string;
-    // TODO: 5. implement custom logic
+    hasColor: boolean;
     parts: string[];
 }

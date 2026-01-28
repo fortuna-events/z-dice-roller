@@ -1,16 +1,20 @@
 import type { Editor, Page } from "@/interfaces";
-import { clone } from "./object";
+import { clone } from "./objects";
 import {
+    DEFAULT_COLOR_HUE,
+    DEFAULT_COLOR_SAT,
     DEFAULT_EDITOR,
     DEFAULT_PAGE,
     HELP_HEADER,
     HELP_PART,
 } from "@/constants";
+import { changeDocumentColor } from "./colors";
 
-export function parseEditor(value: string): Editor {
+export function parseEditor(value: string, parsed: Page): Editor {
     const editor = clone(DEFAULT_EDITOR);
     const debugDataSplit = value.split("\n");
-    let size = HELP_HEADER.length + HELP_PART.length;
+    const headerSize = HELP_HEADER.length - (parsed.hasColor ? 0 : 1);
+    let size = headerSize + HELP_PART.length;
     while (debugDataSplit.length > size) {
         size += HELP_PART.length;
     }
@@ -26,7 +30,7 @@ export function parseEditor(value: string): Editor {
             ) {
                 return " ".repeat((debugDataSplit[index] ?? "").length);
             }
-            if (HELP_HEADER.length > index) {
+            if (headerSize > index) {
                 return HELP_HEADER[index];
             }
             return HELP_PART[(index - HELP_HEADER.length) % HELP_PART.length];
@@ -44,9 +48,24 @@ export function parsePage(value: string): Page {
         return parsed;
     }
     parsed.header = parts.shift()!;
-    // Convert header to simple title of not html
+    // Convert header to simple title if not html
     if (!/<[^>]*>/u.test(parsed.header)) {
         parsed.header = `<h1>${parsed.header}</h1>`;
+    }
+    // parse color if found
+    if (parts[0]?.length && /^\d+(.\d+)?,\s+\d+(.\d+)?%$/u.test(parts[0])) {
+        const rawPart = parts.shift()!.split(",");
+        changeDocumentColor(
+            rawPart[0] ?? DEFAULT_COLOR_HUE,
+            rawPart[1] ?? DEFAULT_COLOR_SAT,
+        );
+    } else if (parts[0]?.length) {
+        // not a color
+        parsed.hasColor = false;
+        changeDocumentColor(DEFAULT_COLOR_HUE, DEFAULT_COLOR_SAT);
+    } else {
+        parts.shift(); // consume empty line
+        changeDocumentColor(DEFAULT_COLOR_HUE, DEFAULT_COLOR_SAT);
     }
     // TODO: 5. implement custom logic
     parsed.parts = [];

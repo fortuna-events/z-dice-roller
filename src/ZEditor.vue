@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onBeforeMount, useTemplateRef, watch } from "vue";
-import type { Editor } from "@/interfaces";
+import type { Editor, Page } from "@/interfaces";
 import { DEFAULT_EDITOR } from "./constants";
 import { parseEditor } from "./lib/parser";
 
@@ -21,12 +21,18 @@ function editorScroll() {
     }
 }
 
+interface Props {
+    parsed: Page;
+}
+
+const props = defineProps<Props>();
+
 watch(debugData, () => {
-    editor.value = parseEditor(debugData.value ?? "");
+    editor.value = parseEditor(debugData.value ?? "", props.parsed);
 });
 
 onBeforeMount(() => {
-    editor.value = parseEditor(debugData.value ?? "");
+    editor.value = parseEditor(debugData.value ?? "", props.parsed);
 });
 </script>
 

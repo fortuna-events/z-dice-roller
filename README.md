@@ -13,14 +13,15 @@
 
 Format is made line by line
 
-Header (1 line):
+Header (1-2 line):
 ```txt
-1   Title and description (html, <h1> on plain text)
+1    Title and description (html, <h1> on plain text)
+2?   Hue, Saturation (optional, "180, 30%" by default)
 ```
 
 After that each link is defined as follows:
 ```txt
-1   Data (html)
+1    Data (html)
 ```
 
 ## Samples
@@ -54,9 +55,9 @@ git merge template/master
 > Every task is indicated with a TODO
 
 1. [ ] Rename app in [README.md](./README.md), [index.html](./index.html) and [package.json](./package.json)
-2. [ ] Change app hue and saturation in [style.css](./style.css)
-3. [ ] Change data format in [README.md](./README.md) and [constants.ts](./src/constants.js)
-4. [ ] Change sample in [README.md](./README.md) and [App.vue](./src/App.vue)
+2. [ ] Change app hue and saturation in [constants.ts](./src/constants.ts)
+3. [ ] Change data format in [README.md](./README.md) and [constants.ts](./src/constants.ts)
+4. [ ] Change sample in [README.md](./README.md) and [constants.ts](./src/constants.ts)
 5. [ ] Implement your custom logic in [interfaces.ts](./src/interfaces.ts), [constants.ts](./src/constants.ts), [App.vue](./src/App.vue) and [parser.ts](./src/lib/parser.ts)
 6. [ ] Remove this part and all TODO
 

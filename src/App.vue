@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeMount, watch, onUpdated } from "vue";
 import type { Page } from "@/interfaces";
-import { DEFAULT_PAGE } from "./constants";
+import { DEFAULT_PAGE, SAMPLE_DATA } from "./constants";
 import { parsePage } from "./lib/parser";
 import { decodeData, encodeDataToUrl } from "./lib/encoder";
 import { updateIcons } from "./lib/icons";
@@ -9,10 +9,7 @@ import ZEditor from "./ZEditor.vue";
 
 const visible = ref<boolean>(false);
 const debug = ref<boolean>(true);
-// TODO: 4. change sample
-const debugData = ref<string>(
-    "Url encoded app template\n<i>Italic text</i>\n<b>Bold text</b>\n<pre>code text</pre>\n<a href='https://google.com'>link</a>",
-);
+const debugData = ref<string>(SAMPLE_DATA);
 const debugUrl = ref<string>("");
 const parsed = ref<Page>(DEFAULT_PAGE);
 
@@ -55,7 +52,7 @@ watch(debugData, dataChanged);
                 <i icon="cog"></i>
                 Z-App
             </h1>
-            <ZEditor v-model="debugData"></ZEditor>
+            <ZEditor v-model="debugData" :parsed="parsed"></ZEditor>
             <a v-if="debugUrl" :href="debugUrl" target="_blank">
                 <i icon="link"></i>
                 Output link
