@@ -61,6 +61,19 @@ git merge template/master
 5. [ ] Implement your custom logic in [interfaces.ts](./src/interfaces.ts), [constants.ts](./src/constants.ts), [App.vue](./src/App.vue) and [parser.ts](./src/lib/parser.ts)
 6. [ ] Remove this part and all TODO
 
+### Upgrade from version 1
+
+```bash
+git remote add template git@github.com:fortuna-events/z-app.git
+git fetch --all
+git checkout -b v1 origin/master
+git branch -D master
+git checkout -b master template/master
+bun install
+# re-code logic by checking online code
+git push origin master --force
+```
+
 ## Apps using this template
 
 <!-- TODO: 6. remove this part -->
