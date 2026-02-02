@@ -4,10 +4,16 @@ export interface Editor {
     overlayText: string;
 }
 
-// TODO: 5. implement custom logic
 export interface Page {
-    error: boolean;
+    error: string | null;
     header: string;
     hasColor: boolean;
-    parts: string[];
+    successText: string;
+    failureText: string;
+    diceCount: number;
+    diceSides: number;
+    targetScore: number;
+    hasExpirationMinutes: boolean;
+    expirationMinutes: number;
+    buttonText: string;
 }

@@ -51,6 +51,7 @@ onBeforeMount(() => {
             v-model="debugData"
             class="code"
             rows="10"
+            :class="parsed.error !== null ? 'error' : ''"
             @scroll="editorScroll"
         ></textarea>
         <div class="overlay">
@@ -63,6 +64,9 @@ onBeforeMount(() => {
                 readonly
             ></textarea>
         </div>
+    </div>
+    <div v-if="parsed.error" class="message">
+        {{ parsed.error }}
     </div>
 </template>
 
@@ -105,5 +109,14 @@ onBeforeMount(() => {
     border: 1px solid #0000;
     overflow: hidden;
     background: none;
+}
+
+textarea.error {
+    border: 1px solid #f44336;
+}
+
+.message {
+    text-align: right;
+    color: #f44336;
 }
 </style>

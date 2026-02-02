@@ -1,15 +1,11 @@
 # [Z] App (template)
 *Working template for URL encoded app*
 
-<!-- TODO: 1. rename app (and tool URL) -->
-
 > Part of the [Z-Apps](https://github.com/fortuna-events/z-app)
 
-### [Tool link](https://fortuna-events.github.io/z-app/)
+### [Tool link](https://dice.fortuna-events.fr)
 
 ## Data format
-
-<!-- TODO: 3. change data format -->
 
 Format is made line by line
 
@@ -19,87 +15,48 @@ Header (1-2 line):
 2?   Hue, Saturation (optional, "180, 30%" by default)
 ```
 
-After that each part is defined as follows:
+After that data is defined as follows:
 ```txt
-1    Data (html)
+2   Success message (html, <h2> on plain text)
+3   Failure message (html, <h2> on plain text)
+4   Dices to roll (as XdY)
+5   Minimum score to obtain (0+)
+6?  Saved roll expiration in minutes (0+, optional, default to 1440 minutes)
+7?  Roll button text (html, optional)
 ```
 
 ## Samples
 
-<!-- TODO: 4. change sample -->
-
-[Sample 1](https://fortuna-events.github.io/z-app/?z=AARDdPWDAjZNDFQkOAogtlABzB42NXAcGATucbREAeBYGgcWAABdl5z6OpNKE1gCCTlB94kPNYEECgGjAKbpHow1DAKPuKMdXJB4DwSAeAgCwXHz0WAlLAx0BghARSZCwegxgdgpABgNwJoK)
+[Sample 1](https://fortuna-events.github.io/z-app/?z=AowwiNAkjAscRaQMTyVAR1EALRC3TIASigEizw-dEZPkBG9ahtFDMWDIaUjBEiQ8MUYgjnPImAgOAowwgiB7BEieAcBwZAHAUU8IHgXAzAMcCwrxRCRywNAEJA4DgJALA8AgCYKgZcBQAwcgdglgNgRgtwQIO)
 
 ```txt
-Url encoded app template
-<i>Italic text</i>
-<b>Bold text</b>
-<pre>code text</pre>
-<a href="https://google.com">link</a>
+Gambling time
+<h2>Have a <a href='https://orteil.dashnet.org/cookieclicker/'>cookie</a> !</h2>
+You fail !
+2d6
+6
 ```
 
-[Sample 2](https://fortuna-events.github.io/z-app/?z=AABCdm4koM3gXXxowDCIBFEiNeiCvIWP5Bf4ogxIWBATAQkwjwwmIAwKo6JAgjxkHGC9c6nfs3F68aOCMR5RwqeYtr2z8AcEEFcag-DzEBeRZTVAACUxFHPbYYBHsfr7GBgzgCuIhEyoAtGwC3GgTYYslC2twNAwSYgVHGe4WQqzFfcxskCRTcey0aAEELksSQZwCNsAGCbgTG6AA1YpmazBgHe4CAKQwRQs1MAQReI020qNtAoQOvMC0CqhjMhkDgXAOsZBD4akCoFHAoRDAGAwMAoAgAu34edCgaSqloTjSpsEYCA7AgRLmeA4CliCGpENKKhB04sHwxZAXBMGgwIA4GxFglA3BEAMFYDwBgtghgyAfAjwCwD)
+[Sample 2](https://fortuna-events.github.io/z-app/?z=ACbyt0GAQEdEhFB-4J-YjWww5TioUVXyBgWKJjEZCyXwkhNDMBYLXSLPTX4FZqEzsoA85IEgrAogjAESidHAfMM5HhgZAoQwZAGoYOA-QQBFAEwT41lDryNpXti0rY6BgJ6YDgWA3CTAICgXA7AUMGIWwSAYBzgpArBGCsFEsH4CgAgngTgKAfAjwCwD)
 
 ```txt
-<h1>Sample with <b>custom CSS classes</b> and <i>custom color</i></h1>
-30, 80%
-<a class='button purple-300' href='https://google.com'><i icon=link></i> link with icons</a>
-<div class='admonition success'><p class=admonition-title>Title</p><p>Content</p><div class=progress><div class=progress-bar style="width:25%"><p class=progress-label>25%</p></div></div></div>
+<h1>Try to make a <i icon="dice-6"></i><i icon="dice-6"></i></h1>
+The gods of dice are with you!
+Try again in a minute!
+2d6
+12
+1
+<i icon='dices'></i><i icon='dices'></i> Try my luck
 ```
 
-## Use this template
+## TODO
 
-<!-- TODO: 6. remove this part -->
-
-```bash
-git clone git@github.com/fortuna-events/z-app.git {PROJECT}
-cd {PROJECT}
-git remote rename origin template
-git remote add origin {PROJECT REMOTE}
-# everytime you want to update your fork
-git fetch --all
-git merge template/master
-```
-
-> Every task is indicated with a TODO
-
-1. [ ] Rename app in [README.md](./README.md), [index.html](./index.html) and [package.json](./package.json)
-2. [ ] Change app hue and saturation in [constants.ts](./src/constants.ts)
-3. [ ] Change data format in [README.md](./README.md) and [constants.ts](./src/constants.ts)
-4. [ ] Change sample in [README.md](./README.md) and [constants.ts](./src/constants.ts)
-5. [ ] Implement your custom logic in [interfaces.ts](./src/interfaces.ts), [constants.ts](./src/constants.ts), [App.vue](./src/App.vue) and [parser.ts](./src/lib/parser.ts)
-6. [ ] Remove this part and all TODO
-
-### Upgrade from version 1
-
-```bash
-git remote add template git@github.com:fortuna-events/z-app.git
-git fetch --all
-git checkout -b v1 origin/master
-git branch -D master
-git checkout -b master template/master
-bun install
-# re-code logic by checking online code
-git commit -a -m 'v2'
-git push origin master v1 --force
-git remote --remove template
-```
-
-## Apps using this template
-
-<!-- TODO: 6. remove this part -->
-
-* [Z-App](https://github.com/fortuna-events/z-app)
-* [Treasure-Finder](https://github.com/fortuna-events/z-treasure-finder)
-* [On-The-Quizz](https://github.com/fortuna-events/z-on-the-quizz)
-* [Cross-Roads](https://github.com/fortuna-events/z-cross-roads)
-* [Dice-Roller](https://github.com/fortuna-events/z-dice-roller)
-* [Hero-Quest](https://github.com/fortuna-events/z-hero-quest)
+* [ ] Better roll animation ?
+* [ ] Handle better roll text (2d2 + 1d3 + 1 > 5)
 
 ## Tips
 
 * [Material design colors](https://materialui.co/colors/) are available, you can use `class="red-500"` on your HTML
 * [Lucide icons](https://lucide.dev/icons) are available, you can use `<i icon=house></i>` on your HTML
-* The `.button` class make links more beautifuls (can also be `.disabled` or colored `amber-300`)
 * Admonitions can be made with things like `<div class='admonition success'><p class=admonition-title>Title</p><p>Content</p></div>`
 * Progress bars can be made with things like `<div class=progress><div class=progress-bar style="width:25%"><p class=progress-label>25%</p></div></div>`
