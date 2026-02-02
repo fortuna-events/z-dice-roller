@@ -58,13 +58,13 @@ export function parsePage(value: string): Page {
     let lineNumber = 0;
     parsed.header = addHtmlIfMissing(parts.shift()!, "h1");
     // parse color if found
-    if (parts[0].length && /^\d+(.\d+)?,\s+\d+(.\d+)?%$/u.test(parts[0])) {
+    if (parts.length && parts[0].length && /^\d+(.\d+)?,\s+\d+(.\d+)?%$/u.test(parts[0])) {
         const rawPart = parts.shift()!.split(",");
         changeDocumentColor(
             rawPart[0] ?? DEFAULT_COLOR_HUE,
             rawPart[1] ?? DEFAULT_COLOR_SAT,
         );
-    } else if (parts[0].length) {
+    } else if (parts.length && parts[0].length) {
         // not a color
         parsed.hasColor = false;
         changeDocumentColor(DEFAULT_COLOR_HUE, DEFAULT_COLOR_SAT);
