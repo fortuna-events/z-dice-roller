@@ -48,6 +48,31 @@ function addHtmlIfMissing(value: string, tag: string): string {
     return value;
 }
 
+function parseRegex(
+    parts: string[],
+    regex: RegExp,
+    success: (value: string) => void,
+    failure: (empty: boolean) => void,
+    consume = false,
+): void {
+    if (!parts.length || !parts[0]?.length) {
+        parts.shift(); // consume empty line
+        failure(true);
+        return;
+    }
+
+    if (regex.test(parts[0])) {
+        success(parts.shift()!);
+        return;
+    }
+
+    if (consume) {
+        parts.shift();
+    }
+
+    failure(false);
+}
+
 export function parsePage(value: string): Page {
     const parsed = clone(DEFAULT_PAGE);
     const parts = value.split("\n");
@@ -58,20 +83,21 @@ export function parsePage(value: string): Page {
     let lineNumber = 0;
     parsed.header = addHtmlIfMissing(parts.shift()!, "h1");
     // parse color if found
-    if (parts.length && parts[0].length && /^\d+(.\d+)?,\s+\d+(.\d+)?%$/u.test(parts[0])) {
-        const rawPart = parts.shift()!.split(",");
-        changeDocumentColor(
-            rawPart[0] ?? DEFAULT_COLOR_HUE,
-            rawPart[1] ?? DEFAULT_COLOR_SAT,
-        );
-    } else if (parts.length && parts[0].length) {
-        // not a color
-        parsed.hasColor = false;
-        changeDocumentColor(DEFAULT_COLOR_HUE, DEFAULT_COLOR_SAT);
-    } else {
-        parts.shift(); // consume empty line
-        changeDocumentColor(DEFAULT_COLOR_HUE, DEFAULT_COLOR_SAT);
-    }
+    parseRegex(
+        parts,
+        /^\d+(.\d+)?,\s+\d+(.\d+)?%$/u,
+        (line: string) => {
+            const rawPart = line.split(",");
+            changeDocumentColor(
+                rawPart[0] ?? DEFAULT_COLOR_HUE,
+                rawPart[1] ?? DEFAULT_COLOR_SAT,
+            );
+        },
+        (empty: boolean) => {
+            parsed.hasColor = empty;
+            changeDocumentColor(DEFAULT_COLOR_HUE, DEFAULT_COLOR_SAT);
+        },
+    );
     lineNumber++;
     if (parts.length < 1) {
         parsed.error = "not enough data";
@@ -89,34 +115,46 @@ export function parsePage(value: string): Page {
         parsed.error = "not enough data";
         return parsed;
     }
-    const rawDice = parts.shift()!;
     lineNumber++;
-    if (/^\d+d\d$/u.test(rawDice)) {
-        parsed.diceCount = parseInt(rawDice.split("d")[0]!, 10);
-        parsed.diceSides = parseInt(rawDice.split("d")[1]!, 10);
-    } else {
-        parsed.error = `invalid dices (line ${lineNumber.toFixed(0)})`;
-    }
+    parseRegex(
+        parts,
+        /^\d+d\d$/u,
+        (line: string) => {
+            const rawDice = line.split("d");
+            parsed.diceCount = parseInt(rawDice[0]!, 10);
+            parsed.diceSides = parseInt(rawDice[1]!, 10);
+        },
+        () => {
+            parsed.error = `invalid dices (line ${lineNumber.toFixed(0)})`;
+        },
+        true,
+    );
     if (parts.length < 1) {
         parsed.error = "not enough data";
         return parsed;
     }
-    const rawTarget = parts.shift()!;
     lineNumber++;
-    if (/^\d+$/u.test(rawTarget)) {
-        parsed.targetScore = parseInt(rawTarget, 10);
-    } else {
-        parsed.error = `invalid target score (line ${lineNumber.toFixed(0)})`;
-    }
-    if (parts.length && /^\d+$/u.test(parts[0])) {
-        parsed.expirationMinutes = parseInt(parts.shift()!, 10);
-        lineNumber++;
-    } else if (parts.length && parts[0].length) {
-        parsed.hasExpirationMinutes = false;
-    } else {
-        parts.shift(); // consume empty line
-        lineNumber++;
-    }
+    parseRegex(
+        parts,
+        /^\d+$/u,
+        (line: string) => {
+            parsed.targetScore = parseInt(line, 10);
+        },
+        () => {
+            parsed.error = `invalid target score (line ${lineNumber.toFixed(0)})`;
+        },
+        true,
+    );
+    parseRegex(
+        parts,
+        /^\d+$/u,
+        (line: string) => {
+            parsed.expirationMinutes = parseInt(line, 10);
+        },
+        (empty: boolean) => {
+            parsed.hasExpirationMinutes = empty;
+        },
+    );
     if (parts.length) {
         parsed.buttonText = parts.shift()!;
         lineNumber++;
